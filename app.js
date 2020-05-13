@@ -1,23 +1,12 @@
-// var message = 'Hello Node!';
+const fs = require('fs');
+const generatePage = require('./src/page-template.js');
 
-// var sum = 5 + 3;
+const profileDataArgs = process.argv.slice(2);
 
-// console.log(message);
-// console.log(sum);
+const [name, github] = profileDataArgs;
 
-var commandLineArgs = process.argv;
-console.log(commandLineArgs);
+fs.writeFile('./index.html', generatePage(name, github), err => {
+    if (err) throw new Error(err);
 
-const profileDataArgs = process.argv.slice(2, process.argv.length);
-console.log(profileDataArgs);
-
-// Notice the lack of parentheses around the `profileDataArr` parameter?
-const printProfileData = profileDataArr => {
-    for (let i = 0; i < profileDataArr.length; i += 1) {
-        console.log(profileDataArr[i]);
-
-        console.log('================');
-
-        profileDataArr.forEach(profileItem => console.log(profileItem));
-        });
-    }
+    console.log('Portfolio complete! Check out index.html to see the output!');
+});
