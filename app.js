@@ -1,17 +1,16 @@
 const inquirer = require('inquirer');
-// console.log(inquirer)
 
 const promptUser = () => {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'name',
+            name: 'name;',
             message: 'What is your name? (Required)',
             validate: nameInput => {
                 if (nameInput) {
                     return true;
                 } else {
-                    console.log('Please enter your name!');
+                    console.log('Please enter your name.');
                     return false;
                 }
             }
@@ -19,12 +18,12 @@ const promptUser = () => {
         {
             type: 'input',
             name: 'github',
-            message: 'What is your GitHub Username? (Required)',
+            message: 'Enter your GitHub Username: (Required)',
             validate: nameInput => {
                 if (nameInput) {
                     return true;
                 } else {
-                    console.log('Please enter GitHub Username!');
+                    console.log('Please enter your GitHub user name.');
                     return false;
                 }
             }
@@ -34,8 +33,8 @@ const promptUser = () => {
             name: 'confirmAbout',
             message: 'Would you like to enter some information about yourself for an "About" section?',
             default: true
-        },
-        {
+        }
+        , {
             type: 'input',
             name: 'about',
             message: 'Provide some information about yourself:',
@@ -45,14 +44,16 @@ const promptUser = () => {
 };
 
 const promptProject = portfolioData => {
+    // if there's no 'projects' array property, create one
     if (!portfolioData.projects) {
         portfolioData.projects = [];
     }
+
     console.log(`
-=================
-Add a New Project
-=================
-`);
+      =================
+      Add a New Project
+      =================
+   `);
     return inquirer.prompt([
         {
             type: 'input',
@@ -62,7 +63,7 @@ Add a New Project
                 if (nameInput) {
                     return true;
                 } else {
-                    console.log('Please enter your Project Name!');
+                    console.log('Please enter the name of your project.');
                     return false;
                 }
             }
@@ -70,12 +71,12 @@ Add a New Project
         {
             type: 'input',
             name: 'description',
-            message: 'Provide a description of the project (Required)',
-            validate: nameInput => {
-                if (nameInput) {
+            message: 'Provide a description of the project (Required):',
+            validate: descriptionInput => {
+                if (descriptionInput) {
                     return true;
                 } else {
-                    console.log('Please enter your project Description!');
+                    console.log('Please enter a detailed description.');
                     return false;
                 }
             }
@@ -83,18 +84,18 @@ Add a New Project
         {
             type: 'checkbox',
             name: 'languages',
-            message: 'What did you this project with? (Check all that apply)',
-            choices: ['JavaScript', 'HTML', 'CSS', 'ES6', 'jQuery', 'Bootstrap', 'Node']
+            message: 'What did you program this project with? (Check all that apply)',
+            choices: ['JavaScript', 'HTML', 'CSS', 'jQuery', 'Bootstrap', 'Node']
         },
         {
             type: 'input',
             name: 'link',
-            message: 'Enter the GitHub link to your project. (Required)',
-            validate: nameInput => {
-                if (nameInput) {
+            message: 'Enter the GitHub link to your project. (Required):',
+            validate: linkInput => {
+                if (linkInput) {
                     return true;
                 } else {
-                    console.log('Please enter your project link!');
+                    console.log('Please enter a valid link to your project.');
                     return false;
                 }
             }
@@ -102,7 +103,7 @@ Add a New Project
         {
             type: 'confirm',
             name: 'feature',
-            message: 'Would you like to feature this project?',
+            message: 'Would you like to feature this probject?',
             default: false
         },
         {
@@ -111,14 +112,15 @@ Add a New Project
             message: 'Would you like to enter another project?',
             default: false
         }
-    ]).then(projectData => {
-        portfolioData.projects.push(projectData);
-        if (projectData.confirmAddProject) {
-            return promptProject(portfolioData);
-        } else {
-            return portfolioData;
-        }
-    });
+    ])
+        .then(projectData => {
+            portfolioData.projects.push(projectData);
+            if (projectData.confirmAddProject) {
+                return promptProject(portfolioData);
+            } else {
+                return portfolioData;
+            }
+        });
 };
 
 promptUser()
